@@ -147,8 +147,8 @@ fn derive_named(
                 }
             }
 
-            fn apply(&mut self, diff: &Self::Repr) {
-                #(self.#names.apply(&diff.#diff_names);)*
+            fn apply(&mut self, diff: &mut Self::Repr) {
+                #(self.#names.apply(&mut diff.#diff_names);)*
             }
 
             fn identity() -> Self {
@@ -207,8 +207,8 @@ fn derive_unnamed(
                 )
             }
 
-            fn apply(&mut self, diff: &Self::Repr) {
-                #(self.#numbers.apply(&diff.#numbers);)*
+            fn apply(&mut self, diff: &mut Self::Repr) {
+                #(self.#numbers.apply(&mut diff.#numbers);)*
             }
 
             fn identity() -> Self {
@@ -230,7 +230,7 @@ fn derive_unit(attrs: StructAttributes, ident: Ident) -> Tokens {
                 ()
             }
 
-            fn apply(&mut self, diff: &Self::Repr) {
+            fn apply(&mut self, diff: &mut Self::Repr) {
                 ()
             }
 
@@ -442,7 +442,7 @@ fn derive_enum(
                 }
             }
 
-            fn apply(&mut self, diff: &Self::Repr) {
+            fn apply(&mut self, diff: &mut Self::Repr) {
                 match diff {
                     Self::Repr::NoChange => {},
                     #(#variants_apply_arms),*,
